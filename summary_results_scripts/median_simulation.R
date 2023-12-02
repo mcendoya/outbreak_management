@@ -6,11 +6,9 @@
 ######################################################################################
 
 # Load libraries
-library(fst) # for working with fst files
 library(dplyr)
 ######################################################################################
 # Function to find the median simulation based on susceptibles at t=360
-# And save as .fst (faster reading)
 
 sim_median <- function(path){
   df <- read.table(paste0(path,"/spread_summary.txt"))
@@ -27,13 +25,12 @@ sim_median <- function(path){
   
   dfS_final$min_dif <- (dfS_final$p-sim_summary$`median(final)`)^2
   sim_m <- dfS_final$sim[dfS_final$min_dif == min(dfS_final$min_dif)]
-  print("Median: simulation number ", sim_m)
   spread_m <- read.table(paste0(path,"/spread",sim_m,".txt"))
   survey_m <- read.table(paste0(path,"/surveys",sim_m,".txt"))
   survey_m <- survey_m %>% 
     replace(is.na(.), -5)
-  write.fst(spread, paste0(path, "/spread_median.fst"))
-  write.fst(survey, paste0(path, "/survey_median.fst"))
+  write.txt(spread, paste0(path, "/spread_median.txt"))
+  write.txt(survey, paste0(path, "/surveys_median.txt"))
 }
 
 ###########################################################################
@@ -65,7 +62,7 @@ result <- lapply(1:nrow(parameter_combinations),
 
 cells_sampled <- function(path, surv_d, CL, df_0){
   xy_cells <- read.csv("coords.csv")
-  surv <- read.fst(paste0(path, "/survey_median.fst"))
+  surv <- read.table(paste0(path, "/surveys_median.txt"))
   surv$cell <- xy_cells$cell_ha
   
   nc <- ns <- c()
