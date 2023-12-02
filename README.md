@@ -18,4 +18,7 @@ by Cendoya et al., 2023.
 
 **summary_results_scripts** folder contains the scripts used to process the results and obtain the interpretable databases.
 
-### Citing
+### Data and Code citation
+
+[![DOI](https://zenodo.org/badge/726494586.svg)](https://zenodo.org/doi/10.5281/zenodo.10251506)
+
